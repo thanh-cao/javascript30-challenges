@@ -1,0 +1,39 @@
+body {
+    background-image: url(background.jpg);
+}
+
+.key-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+}
+
+kbd {
+    display: block;
+    font-size: 4rem;
+}
+
+.key {
+    color: white;
+    border: 2px solid yellow;
+    background-color: #52525273;
+    width: 80px;
+    height: auto;
+    text-align: center;
+    padding-bottom: 1rem;
+    transition: all 0.1s ease;
+}
+
+.playing {
+    transform: scale(1.1);
+    border-color: red;
+    box-shadow: 0 0 .5rem red;
+}
+
+.sound {
+    color: yellow;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
