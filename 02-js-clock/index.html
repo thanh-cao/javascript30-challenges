@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>CSS and Javascript Clock</title>
+</head>
+
+<body>
+    <div class="clock">
+        <div class="clock-face">
+            <div class="hand hand-hour"></div>
+            <div class="hand hand-minute"></div>
+            <div class="hand hand-second"></div>
+        </div>
+    </div>
+
+    <script>
+        const secondHand = document.querySelector('.hand-second');
+        const minuteHand = document.querySelector('.hand-minute');
+        const hourHand = document.querySelector('.hand-hour');
+
+        function setTime() {
+            // get the current hour, minute, second
+            const now = new Date();
+            const second = now.getSeconds();
+            const minute = now.getMinutes();
+            const hour = now.getHours();
+            
+            // a hand ticks on a 360 degree, so get how many degrees it is at the current second, minute, hour. Plus that degree with 90 to offset the hands' initial 90deg position at 00.00
+            const secondDeg = ((second / 60) * 360 + 90);
+            const minuteDeg = ((minute / 60) * 360 + 90);
+            const hourDeg = ((hour / 12) * 360 + 90);
+
+            // rotate the hand based on the degree
+            secondHand.style.transform = `rotate(${secondDeg}deg)`;
+            minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+            hourHand.style.transform = `rotate(${hourDeg}deg)`;
+        }
+
+        setInterval(setTime, 1000)
+    </script>
+
+</body>
+
+</html>

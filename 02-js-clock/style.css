@@ -1,0 +1,41 @@
+body {
+    background-image: url(background.jpg);
+    min-height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clock {
+    border: 1rem solid white;
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    box-shadow: 
+    0 0 0 4px rgba(0,0,0,0.1),
+    inset 0 0 0 3px #EFEFEF,
+    inset 0 0 10px black,
+    0 0 10px rgba(0,0,0,0.2);
+    padding: 25px;
+}
+
+.clock-face {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-4px);
+}
+
+.hand {
+    background: red;
+    width: 50%;
+    height: 8px;
+    position: absolute;
+    top: 50%;
+    transform-origin: 100%;  /* To make the hands tick from one end, instead of in the middle */
+    transform: rotate(90deg);  /* Starting point of the hands at 00.00 */
+    /* transition: all 0.1s ease-in-out; */
+}
