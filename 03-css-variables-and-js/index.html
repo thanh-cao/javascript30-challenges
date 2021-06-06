@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Playing with CSS Variables and Javascript</title>
+</head>
+
+<body>
+    <div class="controls">
+        <h1>Update CSS Variables with <span class="color">Javascript</span></h1>
+
+        <label for="spacing">Spacing:</label>
+        <input type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+
+        <label for="blue">Blur:</label>
+        <input type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+        <label for="base">Base Color:</label>
+        <input type="color" name="base" value="#ECE5A5">
+    </div>
+
+    <img src="https://images.unsplash.com/photo-1622861094263-c0f67e72e392" width="800" height="500" alt="a tray of bakery">
+
+    <script>
+        const inputs = document.querySelectorAll('.controls input');
+        inputs.forEach(input => input.addEventListener('change', handleUpdate));
+        inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+
+        function handleUpdate() {
+            const suffix = this.dataset.sizing || '';  
+            // assign variable  suffix with its data-sizing attribute OR NOTHING so when we append the values, --base color will not have 'undefined' as it doesn't have data-sizing attribute.
+            // .dataset is used to select all the data- attributes available in the markup and we can access each data- attribute with its name
+            document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+        }
+    </script>
+
+</body>
+
+</html>
