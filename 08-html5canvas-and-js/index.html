@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fun with HTML5 Canvas and Javascript</title>
+</head>
+<body>
+    <canvas id="draw" width="800" height="800"></canvas>
+
+    <script>
+        const canvas = document.querySelector('#draw');
+        const ctx = canvas.getContext('2d');
+        // Change canvas' width and height to the size of viewport instead of its default 800x800 in the markup
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        ctx.strokeStyle = '#BADA55';
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 100;
+
+        let isDrawing = false;  // Create a toggle so when we click the mouse to draw, isDrawing is set to true and if we don't click hole the mouse, it will not draw so isDrawing is false
+        let lastX = 0;  // A line needs a points: starting and ending. So these 2 variables lastX
+        let lastY = 0;  // and lastY are set as starting coordinates of the mouse
+
+        let hue = 0;
+        let direction = true;
+
+        function draw(e) {
+            if (!isDrawing) return; // stop the function from running when mouse is not down
+            ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+            ctx.beginPath();
+            // start from
+            ctx.moveTo(lastX, lastY);
+            //go to
+            ctx.lineTo(e.offsetX, e.offsetY)  //e.offsetX and e.offsetY are from the event parameter
+            // connect the dots and draw
+            ctx.stroke();
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+
+            hue++;  // increment hue value to create the rainbow stroke at ctx.strokeStyle
+            if (hue >= 360) {hue = 0;} // reset hue value to 0 when it reaches 360, otherwise it will keeps incrementing beyond 360
+
+            //Adjust lineWidth so the stroke goes from small to big and when it reaches to its max width it flips and goes smaller and so on
+            if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+                direction = !direction;
+            }
+            if (direction) {
+                ctx.lineWidth++;
+            } else {
+                ctx.lineWidth--;
+            }
+        }
+
+        // add event listener based on mouse activities so that it only draws when mouse is down and moving. If mouse is up or mouse goes outside of the window (mouseout), it stops drawing
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+        });// When mouse is down, update its coordinates based on mousedown's event offsetX offsetY 
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseout', () => isDrawing = false);
+        
+        </script>
+    
+</body>
+</html>
