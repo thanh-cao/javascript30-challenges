@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Hold Shift to Check Multiple Checkboxes</title>
+</head>
+
+<body>
+  <div class="inbox">
+    <div class="item">
+      <input type="checkbox">
+      <p>This is an inbox layout.</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check one item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Hold down your Shift key</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check a lower item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Everything in between should also be set to checked</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Try to do it without any libraries</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Just regular JavaScript</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Good Luck!</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Don't forget to tweet your result!</p>
+    </div>
+  </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    let lastChecked;
+    let isBetween = false; // set a flag to check each checkbox whether they are between the 2 checked checkboxes. If it is true, check those inbetween boxes.
+
+    function handleCheck(e) {
+      
+      // Check if the box had shift down AND that it is checked, fire the loop to check each checkbox against the isBetween flag
+      if (e.shiftKey && this.checked) {
+        // Loop over each checkbox and find out the boxes that are inbetween
+        checkboxes.forEach(checkbox => {
+          if (checkbox === this || checkbox === lastChecked) {
+            isBetween = !isBetween; // isBetween stays false until the loop hits the first checked box, then it switches isBetween to true and it remains true until the loop hits the second checked box then isBetween is switched back to false.  
+            console.log(checkbox);
+            console.log(isBetween);
+          }
+
+          if (isBetween) {
+            checkbox.checked = true;
+          }
+        }) 
+        }
+        lastChecked = this;
+      }
+
+    checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+
+  </script>
+</body>
+
+</html>
