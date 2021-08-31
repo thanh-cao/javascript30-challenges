@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+  <script>
+    const cities = [];
+
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function findMatches(cityInput, listOfCities) {
+      return cities.filter(city => {
+        // use regular expression to catch user's input and then find matches
+        const regex = new RegExp(cityInput, 'gi');
+        return city.city.match(regex) || city.state.match(regex); // user can either input city or state so function will try to find matches for that input
+      })
+    }
+
+    function displayMatches(matches) {
+      const matchDisplay = document.querySelector('.suggestions');
+
+      matchDisplayHtml = ''
+      matches = findMatches(this.value, cities);
+
+      matches.forEach(match => {
+        const regex = new RegExp(this.value, 'gi');
+        const cityName = match.city.replace(regex, `<span class="hl">${this.value}</span>`);
+        const stateName = match.state.replace(regex, `<span class="hl">${this.value}</span>`);
+
+        let matchRow = `<li><span class="name">${cityName}, ${stateName}</span> <span class="population">${numberWithCommas(match.population)}</span></li>`;
+        matchDisplayHtml += matchRow;
+      })
+      matchDisplay.innerHTML = matchDisplayHtml;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.querySelector('.search');
+      const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+      fetch(endpoint)
+        .then(res => res.json())
+        .then(data => cities.push(...data));
+
+      searchInput.addEventListener('change', displayMatches);
+      searchInput.addEventListener('keyup', displayMatches);
+    })
+
+  </script>
+</body>
+
+</html>
