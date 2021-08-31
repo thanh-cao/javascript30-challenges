@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <p>Something will happen if you type in the correct secret code: hello</p>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+  const pressed = [];
+  const secretCode = 'hello';
+
+  window.addEventListener('keyup', (e) => {
+    pressed.push(e.key);
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);  // limit the number of keys pressed registered to the same length of the secret code
+
+    if (pressed.join('').includes(secretCode)) {
+      cornify_add();
+      console.log('DING DING!');
+    }
+  })
+</script>
+</body>
+</html>
